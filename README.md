@@ -1,6 +1,12 @@
 # server_masc_2020
 Projeto com Exemplos de Chamadas ao Servidor Masc.
 
+Algumas chamdas podem ser executadas pelo link: http://ec2-34-217-138-53.us-west-2.compute.amazonaws.com:8089/
+
+Abaixo seguem algumas url, o conteúdo que consomem e o seu retorno:
+
+
+
 $url  = 'http://ec2-user@ec2-34-217-138-53.us-west-2.compute.amazonaws.com:8089';
 $url  .= '/listarRec';
 $data = ['data' => 'PcD;Membros Inferiores;-29.762738198684357;-51.151206493377686'];
