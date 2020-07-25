@@ -27,7 +27,7 @@ public class Main implements CommandLineRunner{
     private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args){
-        System.out.println("Iniciando");
+        System.out.println("Iniciando...");
         SpringApplication.run(Main.class, args);
     }
 
@@ -109,7 +109,7 @@ public class Main implements CommandLineRunner{
                 e.printStackTrace();
             }
         }
-        log.info("Ready...");
-        System.out.println("Ready...");
+        log.info("Pronto...");
+        System.out.println("Pronto...");
     }
 }

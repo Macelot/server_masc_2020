@@ -5,11 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<_masc_usuario, Integer> {
 
-    List<User> findByNome(String name);
+    List<_masc_usuario> findByNome(String name);
 
-    User findById(int id);
+    _masc_usuario findById(int id);
 
-    User findCustomerById(Integer id);
+    _masc_usuario findCustomerById(Integer id);
 }

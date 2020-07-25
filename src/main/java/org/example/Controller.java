@@ -3,20 +3,19 @@ package org.example;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
 
 
 @RestController
@@ -34,7 +33,7 @@ public class Controller {
 
     @PostMapping("/add")
     public String addCustomer(@RequestParam String nome, @RequestParam String email, @RequestParam String senha, @RequestParam String tipoUser, @RequestParam String tipoDef) {
-        User user = new User();
+        _masc_usuario user = new _masc_usuario();
         user.setNome(nome);
         user.setEmail(email);
         user.setSenha(senha);
@@ -45,12 +44,57 @@ public class Controller {
     }
 
     @GetMapping("/listuser")
-    public Iterable<User> getUsers() {
+    public Iterable<_masc_usuario> getUsers() {
         return userRepository.findAll();
     }
 
+    @GetMapping("/listaUsuario")
+    public ArrayList<_masc_usuario> listaUsuario() {
+        String comando;
+        String nome,email,senha,tipoUser,tipoDef;
+        String result="";
+
+        comando = "SELECT nome,email,senha,tipoUser,tipoDef FROM _masc_usuario;";
+        System.out.println("comando "+comando);
+
+        try{
+            con = Database.getConnection("dissys");
+            stmt = con.createStatement();
+            ResultSet r;
+            r = stmt.executeQuery(comando);
+            array = new JSONArray();
+            while(r.next()){
+                JSONObject record = new JSONObject();
+
+                nome = r.getString("nome");
+                email = r.getString("email");
+                senha = r.getString("senha");
+                tipoUser = r.getString("tipoUser");
+                tipoDef = r.getString("tipoDef");
+
+                record.put("tipoUser", tipoUser);
+                record.put("tipoDef", tipoDef);
+                record.put("senha", senha);
+                record.put("email", email);
+                record.put("nome", nome);
+
+                array.add(record);
+
+            }
+            con.close();
+
+        }catch (Exception e){
+            //System.out.println("Erro na comunicação "+sistemaIp +" "+sistemaUser+" "+ e.getMessage());
+            //System.out.println("Erro SQL "+comando+"");
+            //e.printStackTrace();
+            result="no;";
+        }
+        //result = result+tipoUser+";"+tipoDef;
+        return array;
+    }
+
     @GetMapping("/find/{id}")
-    public User findUserById(@PathVariable Integer id) {
+    public _masc_usuario findUserById(@PathVariable Integer id) {
         return userRepository.findCustomerById(id);
     }
 
@@ -493,7 +537,7 @@ public class Controller {
 
     //logar
     @PostMapping("/logar")
-    public ArrayList createLog(String data) {
+    public ArrayList logar(String data) {
         //http://localhost:8081/testa_masc_server/config/posts.php?operacao=rotasMaisAcessadas
         //http://localhost:8089/rotasMaisAcessadas
         //data = $data = "paulo@server.com;aa"
@@ -557,7 +601,7 @@ public class Controller {
         //			'tipoUser'=> 'PcD',
         //			'tipoDef'=> 'Membros Inferiores'];
 
-        User user = new User();
+        _masc_usuario user = new _masc_usuario();
         user.setNome(nome);
         user.setEmail(email);
         user.setSenha(senha);
